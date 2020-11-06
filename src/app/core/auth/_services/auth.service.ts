@@ -8,7 +8,7 @@ import { map, catchError, mergeMap, tap } from 'rxjs/operators';
 import { filter, some, find, each } from 'lodash';
 
 // Models
-import { User } from '../_models/user.model';
+import { User } from '../../_models/user.model';
 
 const API_USERS_URL = 'api/users';
 @Injectable()

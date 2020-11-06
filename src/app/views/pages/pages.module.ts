@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { WorkorderListComponent } from './work-order/workorder-list/workorder-list.component';
 
 
 
 @NgModule({
-  declarations: [],
+  declarations: [WorkorderListComponent],
   imports: [
     CommonModule
   ]

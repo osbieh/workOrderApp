@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { InMemoryDbService, RequestInfo } from 'angular-in-memory-web-api';
 // RxJS
 import { Observable } from 'rxjs';
-import { AuthDataContext } from './auth.data-context';
+import { WorkDataContext } from '../_contexts/work.data-context';
 
 
 @Injectable()
@@ -17,7 +17,10 @@ export class FakeApiService implements InMemoryDbService {
        
         const db = {
 			// auth module
-			users: AuthDataContext.users,
+            users: WorkDataContext.users,
+            //workOrder module
+            workOrders:WorkDataContext.workOrders,
+            
         }
       
         return db;

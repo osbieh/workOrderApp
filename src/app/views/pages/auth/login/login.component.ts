@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first ,finalize, tap } from 'rxjs/operators';
 
- import { AuthService } from './../../../../core/auth';
+ import { AuthService } from '../../../../core/auth';
 
 @Component({templateUrl: 'login.component.html'})
 export class LoginComponent implements OnInit {

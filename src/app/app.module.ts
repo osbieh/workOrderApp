@@ -8,13 +8,14 @@ import { AppComponent } from './app.component';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 
 //services
-import { FakeApiService } from './core/auth/_services/fake-api.service';
+import { FakeApiService } from './core/_mermoryDb/fake-api.service';
 import { AuthService } from './core/auth';
 
 //modules
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 import { AuthModule } from './views/pages/auth/auth.module';
+import { WorkOrderService } from './core/work-order';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { AuthModule } from './views/pages/auth/auth.module';
   ],
   providers: [
      AuthService,
+     WorkOrderService
   ],
   bootstrap: [AppComponent]
 })

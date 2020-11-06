@@ -15,7 +15,13 @@ const routes: Routes = [
       {
 				path: 'dashboard',
 				loadChildren: () => import('./views/pages/dashboard/dashboard.module').then(m => m.DashboardModule)
-			},
+      },
+      
+      {
+				path: 'workOrder',
+				loadChildren: () => import('./views/pages/work-order/work-order.module').then(m => m.WorkOrderModule)
+      },
+
       {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
       {path: '**', redirectTo: 'dashboard', pathMatch: 'full'}
     ]
