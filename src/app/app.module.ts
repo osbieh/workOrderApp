@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // Angular in memory
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 
@@ -17,12 +17,21 @@ import { CoreModule } from './core/core.module';
 import { AuthModule } from './views/pages/auth/auth.module';
 import { WorkOrderService } from './core/work-order';
 
+
+
+
+
+
+
+
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
+  
     AppRoutingModule,
     HttpClientModule,
     HttpClientInMemoryWebApiModule.forRoot(FakeApiService, {
@@ -33,9 +42,11 @@ import { WorkOrderService } from './core/work-order';
     AuthModule.forRoot(),
   ],
   providers: [
-     AuthService,
+     AuthService, 
      WorkOrderService
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  exports:[ 
+  ]
 })
 export class AppModule { }

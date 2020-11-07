@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { WorkorderListComponent } from './workorder-list/workorder-list.component';
 import { WorkorderEditComponent } from './workorder-edit/workorder-edit.component';
 import { RouterModule, Routes } from '@angular/router';
+import {WorkMaterialModule} from './../../../work-material.module';
+
 
 const routes: Routes = [
   
@@ -13,10 +15,12 @@ const routes: Routes = [
 
 ];
 
+
 @NgModule({
   declarations: [WorkorderListComponent, WorkorderEditComponent],
   imports: [
     CommonModule,
+    WorkMaterialModule,
     RouterModule.forChild(routes),
   ],
   exports:[

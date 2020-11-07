@@ -1,18 +1,19 @@
 
 <!-- nav -->
-<nav class="navbar navbar-expand navbar-dark bg-dark" *ngIf="currentUser">
+<nav class="navbar navbar-expand navbar-dark bg-dark justify-content-between" *ngIf="currentUser">
   <div class="navbar-nav">
       <a class="nav-item nav-link" routerLink="/">Home</a>
       <a class="nav-item nav-link" routerLink="/workOrder">WorkOrder</a>
       <a class="nav-item nav-link" (click)="logout()">Logout</a>
   </div>
+  <div style="color: white;">Welcome&nbsp; &nbsp;{{currentUser.username}}</div>
 </nav>
 
 <!-- main app container -->
 <div class="jumbotron">
   <div class="container">
       <div class="row">
-          <div class="col-sm-6 offset-sm-3">
+          <div class="offset-sm-1 col-sm-10 offset-sm-1">
               <!-- <alert></alert> -->
               <router-outlet></router-outlet>
           </div>
