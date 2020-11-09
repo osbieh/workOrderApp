@@ -1,1 +1,57 @@
-<p>workorder-edit works!</p>
+<h3>Work Order</h3>
+
+
+<form class="form-horizontal" [formGroup]="addEditworkOrderForm" (ngSubmit)="onSubmit(this)"
+ >
+
+  <div class="row">
+
+    <div class="col-sm-4">
+      <label class="label-pad">Created Date</label>
+      <mat-form-field class="inputBackground">
+        <input matInput #creation class="inputField" type="text" id="creation" 
+        formControlName="creation" disabled=disabled>
+      </mat-form-field>
+    </div>
+
+    <div class="col-sm-4">
+      <mat-label class="label-pad">start Date:</mat-label>
+        <mat-form-field class="inputBackground" appearance="fill">
+          <input matInput [matDatepicker]="picker" formControlName="start">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+    </div>
+
+    <div class="col-sm-4">
+      <mat-label class="label-pad">end Date:</mat-label>
+      <mat-form-field class="inputBackground" appearance="fill">
+        <input matInput [matDatepicker]="endDatePicker" formControlName="end">
+        <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #endDatePicker></mat-datepicker>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-4">
+      <mat-label class="label-pad">progress: </mat-label>
+      <mat-form-field class="inputBackground">
+          <input id="progress"  formControlName="progress" type="number" max=100 min=0  matInput>
+          <mat-hint align="start"><strong>Min 0 and Max upto 100</strong> </mat-hint>
+      </mat-form-field>
+    </div>
+
+    <div class="col-sm-4">
+      <mat-label class="label-pad">operation: </mat-label>
+      <mat-form-field class="inputBackground">
+        <textarea matInput #operation maxlength="30" class="inputField" type="text" id="operation"
+          formControlName="operation" required></textarea>
+      </mat-form-field>
+    </div>
+
+  </div>
+  <p>
+    <button type="submit" md-raised-button>Submit</button>
+</p>
+</form>

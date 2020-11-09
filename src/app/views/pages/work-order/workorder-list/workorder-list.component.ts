@@ -1,9 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormArray, FormGroup, Validators } from '@angular/forms';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { WorkOrderService } from 'src/app/core/work-order';
+import { WorkorderEditComponent } from '../workorder-edit/workorder-edit.component';
 
 
 
@@ -20,6 +22,9 @@ export class WorkorderListComponent  implements OnInit,AfterViewInit {
   public dataLength: number;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
+
+  private wec:WorkorderEditComponent;
+
   public displayedColumns = [
     'id',
     'creation',
@@ -29,11 +34,8 @@ export class WorkorderListComponent  implements OnInit,AfterViewInit {
     'progress',
     'options'
 ];
-  constructor(private workOrderService:WorkOrderService){
+  constructor(private workOrderService:WorkOrderService,public dialog: MatDialog,){
 
-
-
-  
   }
   ngOnInit(): void {
 
@@ -50,22 +52,45 @@ export class WorkorderListComponent  implements OnInit,AfterViewInit {
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
-
-  public selectMember(selectedMember) {
-    // push the id's into an array then call it with the button.
-    return null;
-  }
-
   public addRecord() {
-   
+    const dialogConfig = new MatDialogConfig();
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = true;
+        dialogConfig.width='850px';
+        
+        this.dialog.open(WorkorderEditComponent, dialogConfig);
   }
+ 
+  public refreshTable() {
+    this.workOrderService.getAllWorkOrders()
+      .subscribe(data => {
+      this.dataLength = data.length;
+      this.dataSource.data = data;
+    },
+    (err: HttpErrorResponse) => {
+    console.log(err.error);
+    console.log(err.message);
+    });
+  }
+
+
 
 
   // ----------- EDIT & UPDATE --------------
-
   public editRecord(recordId) {
-   
+
+    const dialogConfig = new MatDialogConfig();
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = true;
+        dialogConfig.width='850px';
+        dialogConfig.data={recordId: recordId}
+        this.dialog.open(WorkorderEditComponent, dialogConfig);
+
+    // this.dialog.open(this., {
+    //   data: {recordId: recordId, idColumn: this.idColumn, paginator: this.paginator, dataSource: this.dataSource}
+    // });
   }
+
 
 
 

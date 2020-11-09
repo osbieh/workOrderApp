@@ -5,5 +5,6 @@ export class WorkOrder {
     start: Date;
     end:Date;
     progress:number;
+    details:number[];
 }
 
