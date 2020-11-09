@@ -8,10 +8,6 @@ import { WorkOrderService } from 'src/app/core/work-order';
 import { WorkorderEditComponent } from '../workorder-edit/workorder-edit.component';
 
 
-
-
-
-
 @Component({
   selector: 'app-workorder-list',
   templateUrl: './workorder-list.component.html',
@@ -57,7 +53,7 @@ export class WorkorderListComponent  implements OnInit,AfterViewInit {
         dialogConfig.disableClose = true;
         dialogConfig.autoFocus = true;
         dialogConfig.width='850px';
-        
+
         this.dialog.open(WorkorderEditComponent, dialogConfig);
   }
  

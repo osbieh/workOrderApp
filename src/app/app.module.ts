@@ -16,6 +16,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 import { AuthModule } from './views/pages/auth/auth.module';
 import { WorkOrderService } from './core/work-order';
+import { WorkorderdetailsService } from './core/work-order/_services/workorder-details.service';
 
 
 
@@ -31,7 +32,6 @@ import { WorkOrderService } from './core/work-order';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-  
     AppRoutingModule,
     HttpClientModule,
     HttpClientInMemoryWebApiModule.forRoot(FakeApiService, {
@@ -43,7 +43,8 @@ import { WorkOrderService } from './core/work-order';
   ],
   providers: [
      AuthService, 
-     WorkOrderService
+     WorkOrderService,
+     WorkorderdetailsService
   ],
   bootstrap: [AppComponent],
   exports:[ 

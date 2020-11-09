@@ -1,0 +1,45 @@
+<div class="row">
+    <div class="col">
+        <button mat-raised-button >New</button>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <mat-table class="matTable" [dataSource]="dataSource" class="mat-elevation-z8">
+
+            <ng-container matColumnDef="id">
+                <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+
+                <mat-cell *matCellDef="let row"> {{row.id}} </mat-cell>
+
+            </ng-container>
+
+            <ng-container matColumnDef="location">
+                <mat-header-cell *matHeaderCellDef> Location </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.location}} </mat-cell>
+            </ng-container>
+
+
+            <ng-container matColumnDef="description">
+                <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.description}} </mat-cell>
+            </ng-container>
+
+
+            <ng-container matColumnDef="progress">
+                <mat-header-cell *matHeaderCellDef fxFlex="20"> Progress(%) </mat-header-cell>
+                <mat-cell *matCellDef="let row" fxFlex="20" matTooltip="{{row.progress}}">
+                    <span class="ellipsis">{{row.progress}}</span>
+                </mat-cell>
+            </ng-container>
+
+
+           
+            <mat-header-row *matHeaderRowDef="displayedDetailColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedDetailColumns;"></mat-row>
+
+        </mat-table>
+        <mat-paginator #paginator [pageIndex]="0" [pageSize]="2" [pageSizeOptions]="[2, 4, 25, 100]">
+        </mat-paginator>
+    </div>
+</div>

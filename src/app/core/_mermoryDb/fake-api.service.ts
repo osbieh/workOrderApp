@@ -20,6 +20,9 @@ export class FakeApiService implements InMemoryDbService {
             users: WorkDataContext.users,
             //workOrder module
             workOrders:WorkDataContext.workOrders,
+
+            workOrderDetails:WorkDataContext.workOrderDetails,
+
             
         }
       

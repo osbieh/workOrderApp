@@ -5,6 +5,7 @@ import { WorkorderEditComponent } from './workorder-edit/workorder-edit.componen
 import { RouterModule, Routes } from '@angular/router';
 import {WorkMaterialModule} from './../../../work-material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { WorkorderDetailsModule } from '../workorder-details/workorder-details.module';
 
 
 const routes: Routes = [
@@ -24,7 +25,8 @@ const routes: Routes = [
     WorkMaterialModule,
     RouterModule.forChild(routes),
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+   WorkorderDetailsModule
   ],
   exports:[
     WorkorderListComponent
