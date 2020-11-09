@@ -9,6 +9,7 @@ import { filter, some, find, each } from 'lodash';
 
 // Models
 import { User } from '../../_models/user.model';
+import { Role } from '../../_models/role';
 
 const API_USERS_URL = 'api/users';
 @Injectable()
@@ -59,6 +60,12 @@ export class AuthService {
     public get currentUserValue(): User {
         return this.currentUserSubject.value;
     }
+
+    get isForemen() {
+        return this.currentUserValue && this.currentUserValue.role.toLowerCase() == Role.Foremen.toLocaleLowerCase()
+    }
+
+
     logout(): void {
         // remove user from local storage to log user out
         localStorage.removeItem('currentUser');

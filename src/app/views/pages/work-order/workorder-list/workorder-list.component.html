@@ -1,7 +1,7 @@
 <div class="container">
 	<div class="row">
-		<div class="col">
-			<button mat-raised-button (click)="addRecord()">New</button>
+		<div  class="col">
+			<button mat-raised-button (click)="addRecord()" *ngIf="!isForemen">New</button>
 		</div>
 	</div>
 	<div class="row">
@@ -51,7 +51,7 @@
 				<ng-container matColumnDef="options">
 					<mat-header-cell *matHeaderCellDef> Options </mat-header-cell>
 					<mat-cell *matCellDef="let row">
-						<button (click)="deleteRecord(row.id)">Delete</button>
+						<button (click)="deleteRecord(row.id)" *ngIf="!isForemen">Delete</button>
 						<button (click)="editRecord(row.id)">Edit</button>
 					</mat-cell>
 				</ng-container>

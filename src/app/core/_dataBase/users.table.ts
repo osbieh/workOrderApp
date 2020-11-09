@@ -5,7 +5,7 @@ export class UsersTable {
 			username: 'osama',
 			password: 'osama',
             email: 'osama@ccc.com',
-            role: 'foreMen',
+            role: 'foremen',
             token:'8f3ae836da744329a6f93bf20594b5cc'
         },
         {

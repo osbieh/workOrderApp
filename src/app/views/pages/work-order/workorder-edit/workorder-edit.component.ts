@@ -12,8 +12,6 @@ import { WorkorderListComponent } from '../workorder-list/workorder-list.compone
 // Used for importing lists from the html.
 import { locations } from './../../../../core/_dataBase/locations-list';
 
-
-
 @Component({
   selector: 'app-workorder-edit',
   templateUrl: './workorder-edit.component.html',

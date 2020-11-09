@@ -4,6 +4,7 @@ import { FormControl, FormArray, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { AuthService } from 'src/app/core/auth';
 import { WorkOrderService } from 'src/app/core/work-order';
 import { WorkorderEditComponent } from '../workorder-edit/workorder-edit.component';
 
@@ -17,7 +18,10 @@ export class WorkorderListComponent  implements OnInit,AfterViewInit {
   public dataSource = new MatTableDataSource;
   public dataLength: number;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-
+  currentUserRole:string;
+  isForemen:boolean;
+  private dsData: any;
+  private idColumn = 'id';
 
   private wec:WorkorderEditComponent;
 
@@ -30,11 +34,13 @@ export class WorkorderListComponent  implements OnInit,AfterViewInit {
     'progress',
     'options'
 ];
-  constructor(private workOrderService:WorkOrderService,public dialog: MatDialog,){
-
+  constructor(private workOrderService:WorkOrderService,public dialog: MatDialog,private authService:AuthService){
+    this.isForemen=authService.isForemen;
+  
   }
   ngOnInit(): void {
-
+    
+    
     this.workOrderService.getAllWorkOrders()
       .subscribe(data => {
       this.dataLength = data.length;
@@ -93,6 +99,25 @@ export class WorkorderListComponent  implements OnInit,AfterViewInit {
 // --------------- DELETE ------------------
 
   public deleteRecord(recordId) {
+
+    this.workOrderService.deleteWorkOrder(recordId).subscribe(
+      result=>{
+        this.deleteRowDataTable (recordId, this.idColumn, this.paginator, this.dataSource);
+      }, 
+       (err: HttpErrorResponse) => {
+        console.log(err.error);
+        console.log(err.message);
+      }
+    );
+
+  }
+
+  // Remove the deleted row from the data table. Need to remove from the downloaded data first.
+  private deleteRowDataTable (recordId, idColumn, paginator, dataSource) {
+    this.dsData = dataSource.data;
+    const itemIndex = this.dsData.findIndex(obj => obj[idColumn] === recordId);
+    dataSource.data.splice(itemIndex, 1);
+    dataSource.paginator = paginator;
   }
 
 }

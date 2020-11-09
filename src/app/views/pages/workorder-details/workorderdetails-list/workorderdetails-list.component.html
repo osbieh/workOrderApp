@@ -1,45 +1,57 @@
-<div class="row">
-    <div class="col">
-        <button mat-raised-button >New</button>
-    </div>
-</div>
-<div class="row">
-    <div class="col">
-        <mat-table class="matTable" [dataSource]="dataSource" class="mat-elevation-z8">
-
-            <ng-container matColumnDef="id">
-                <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
-
-                <mat-cell *matCellDef="let row"> {{row.id}} </mat-cell>
-
-            </ng-container>
-
-            <ng-container matColumnDef="location">
-                <mat-header-cell *matHeaderCellDef> Location </mat-header-cell>
-                <mat-cell *matCellDef="let row"> {{row.location}} </mat-cell>
-            </ng-container>
+<div class="container">
+    <div class="panel panel-primary" style="background-color: #f5f4ef;width: 100%;">
 
 
-            <ng-container matColumnDef="description">
-                <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
-                <mat-cell *matCellDef="let row"> {{row.description}} </mat-cell>
-            </ng-container>
+        <div class="panel-heading">WorkOrder Details</div>
+        <div class="panel-body" style="margin-bottom: 10px;">
 
 
-            <ng-container matColumnDef="progress">
-                <mat-header-cell *matHeaderCellDef fxFlex="20"> Progress(%) </mat-header-cell>
-                <mat-cell *matCellDef="let row" fxFlex="20" matTooltip="{{row.progress}}">
-                    <span class="ellipsis">{{row.progress}}</span>
-                </mat-cell>
-            </ng-container>
+            <div class="row">
+                <div class="col" style="margin-top: 10px;margin-left: 10px;margin-bottom: -5px;">
+                    <button mat-raised-button>New</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-11" style="margin: 15px;">
+                    <mat-table class="matTable" [dataSource]="dataSource" class="mat-elevation-z8">
+
+                        <ng-container matColumnDef="id">
+                            <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+
+                            <mat-cell *matCellDef="let row"> {{row.id}} </mat-cell>
+
+                        </ng-container>
+
+                        <ng-container matColumnDef="location">
+                            <mat-header-cell *matHeaderCellDef> Location </mat-header-cell>
+                            <mat-cell *matCellDef="let row"> {{row.location}} </mat-cell>
+                        </ng-container>
 
 
-           
-            <mat-header-row *matHeaderRowDef="displayedDetailColumns"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedDetailColumns;"></mat-row>
+                        <ng-container matColumnDef="description">
+                            <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
+                            <mat-cell *matCellDef="let row"> {{row.description}} </mat-cell>
+                        </ng-container>
 
-        </mat-table>
-        <mat-paginator #paginator [pageIndex]="0" [pageSize]="2" [pageSizeOptions]="[2, 4, 25, 100]">
-        </mat-paginator>
+
+                        <ng-container matColumnDef="progress">
+                            <mat-header-cell *matHeaderCellDef fxFlex="20"> Progress(%) </mat-header-cell>
+                            <mat-cell *matCellDef="let row" fxFlex="20" matTooltip="{{row.progress}}">
+                                <span class="ellipsis">{{row.progress}}</span>
+                            </mat-cell>
+                        </ng-container>
+
+
+
+                        <mat-header-row *matHeaderRowDef="displayedDetailColumns"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedDetailColumns;"></mat-row>
+
+                    </mat-table>
+                    <mat-paginator #paginator [pageIndex]="0" [pageSize]="2" [pageSizeOptions]="[2, 4, 25, 100]">
+                    </mat-paginator>
+                </div>
+            </div>
+
+        </div>
     </div>
 </div>
