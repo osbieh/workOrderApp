@@ -1,41 +1,61 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormControl } from '@angular/forms';
+import { AfterViewInit, Component, Inject, OnInit, ViewChild, ViewChildren } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-import { WorkorderdetailsService } from 'src/app/core/work-order/_services/workorder-details.service';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { WorkOrderDetail } from 'src/app/core/_models/workOrderDetail.model';
+import { WorkorderdetailsService } from 'src/app/core/_services/_service/workorder-details.service';
 
 @Component({
   selector: 'app-workorderdetails-list',
   templateUrl: './workorderdetails-list.component.html',
   styleUrls: ['./workorderdetails-list.component.css']
 })
-export class WorkorderdetailsListComponent implements OnInit,AfterViewInit {
-    
+export class WorkorderdetailsListComponent implements OnInit, AfterViewInit {
+
+
   displayedDetailColumns: string[] = ['id', 'description', 'location', 'progress'];
   public dataSource = new MatTableDataSource;
   controls: FormArray;
-  dataLength:number;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  dataLength: number;
+  workerId: number;
 
-  constructor(private workorderdetailsService:WorkorderdetailsService) { }
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChildren(MatTable) _matTables;
+
+  constructor(private workorderdetailsService: WorkorderdetailsService,
+    @Inject(MAT_DIALOG_DATA) public data: any) {
+
+
+  }
   ngAfterViewInit(): void {
+
     this.dataSource.paginator = this.paginator;
+
   }
 
   ngOnInit(): void {
 
-    this.workorderdetailsService.getAllWorkorderdetails()
-    .subscribe(data => {
+    // this.createForm();
+    if (this.data) {
+      this.fillTableData(this.data.recordId);
+    }
 
-      console.log(data );
-    this.dataLength = data.length;
-    this.dataSource.data = data;
-  },
-  (err: HttpErrorResponse) => {
-  console.log(err.error);
-  console.log(err.message);
-  });
+  }
+  fillTableData(workorderId: number) {
+
+    this.workorderdetailsService.getWorkOrdersDetialsByWorksOrderId(workorderId)
+      .subscribe(result => {
+
+        this.dataLength = result.length;
+        this.dataSource.data = result;
+      },
+        (err: HttpErrorResponse) => {
+          console.log(err.error);
+          console.log(err.message);
+        });
 
   }
 
@@ -45,12 +65,24 @@ export class WorkorderdetailsListComponent implements OnInit,AfterViewInit {
     // //  this.core.update(index,field,control.value);
     // }
 
-   }
+  }
 
   getControl(index, fieldName) {
-    const a  = this.controls.at(index).get(fieldName) as FormControl;
+    const a = this.controls.at(index).get(fieldName) as FormControl;
     return this.controls.at(index).get(fieldName) as FormControl;
   }
 
+  createNewWorkOrderDetails(id: number): WorkOrderDetail {
+    if (this.data) {
+      return { id: 10,description:"",location:"",progress:0,workOrderId:this.data.recordId};
+    }
+
+    return { id: 10,description:"",location:"",progress:0,workOrderId:1};
+  }
+
+  addRow(){
+    this.dataSource.data.push(this.createNewWorkOrderDetails(this.dataSource.data.length + 1));
+    this.dataSource.filter = "";
+  }
 
 }

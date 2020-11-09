@@ -2,57 +2,57 @@ export class WorkOrderTable{
     public static workOrders: any = [
 		{
             id: 1,
-			creation: '2020-08-20',
+			creation: '2015-03-05',
 			operation: 'start work on my data',
-            start: '2020-09-10',
-            end: '2020-10-10',
+            start: '2015-10-05',
+            end: '2015-11-16',
             progress:'86',
-            details:[1,2]
+          
         },
         {
             id: 2,
-			creation: '2020-06-01',
-			operation: 'start work on my data',
-            start: '2020-09-05',
-            end: '2020-11-10',
+			creation: '2018-06-15',
+			operation: 'store is Empty LOL',
+            start: '2020-07-27',
+            end: '2020-09-25',
             progress:'65',
-            details:[3,4]
+           
         },
         {
             id: 3,
-			creation: '2020-03-07',
-			operation: 'location inn dd sdfk.jhfk.f mfsm,fjns,jfhjsdbnkflsd.fskd.f',
-            start: '2020-04-10',
-            end: '2020-05-10',
+			creation: '2020-09-04',
+			operation: 'location inn dd',
+            start: '2020-04-09',
+            end: '2020-06-04',
             progress:'23',
-            details:[5,6]
+           
         },
         {
             id: 4,
-			creation: '2020-03-07',
-			operation: 'location inn dd sdfk.jhfk.f mfsm,fjns,jfhjsdbnkflsd.fskd.f',
-            start: '2020-04-10',
-            end: '2020-05-10',
+			creation: '2020-03-17',
+			operation: 'location inn dd ',
+            start: '2020-09-04',
+            end: '2020-09-25',
             progress:'23',
-            details:[7,8]
+           
         },
         {
             id: 5,
-			creation: '2020-03-07',
-			operation: 'location inn dd sdfk.jhfk.f mfsm,fjns,jfhjsdbnkflsd.fskd.f',
-            start: '2020-04-10',
-            end: '2020-05-10',
+			creation: '2020-10-04',
+			operation: 'location inn dd',
+            start: '2020-09-04',
+            end: '2020-09-04',
             progress:'33',
-            details:[9,10]
+           
         },
         {
             id: 6,
-			creation: '2020-03-07',
+			creation: '2020-12-15',
 			operation: 'location inn dd sdfk.jhfk.f mfsm,fjns,jfhjsdbnkflsd.fskd.f',
-            start: '2020-04-10',
-            end: '2020-05-10',
+            start: '2020-09-04',
+            end: '2020-12-04',
             progress:'96',
-            details:[11,12]
+           
         },
     ]
 }

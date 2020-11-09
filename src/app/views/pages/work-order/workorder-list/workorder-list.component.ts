@@ -4,8 +4,9 @@ import { FormControl, FormArray, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { switchMap } from 'rxjs/operators';
 import { AuthService } from 'src/app/core/auth';
-import { WorkOrderService } from 'src/app/core/work-order';
+import { ConfirmService, WorkOrderService } from 'src/app/core/_services';
 import { WorkorderEditComponent } from '../workorder-edit/workorder-edit.component';
 
 
@@ -14,16 +15,16 @@ import { WorkorderEditComponent } from '../workorder-edit/workorder-edit.compone
   templateUrl: './workorder-list.component.html',
   styleUrls: ['./workorder-list.component.css']
 })
-export class WorkorderListComponent  implements OnInit,AfterViewInit {
+export class WorkorderListComponent implements OnInit, AfterViewInit {
   public dataSource = new MatTableDataSource;
   public dataLength: number;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  currentUserRole:string;
-  isForemen:boolean;
+  currentUserRole: string;
+  isForemen: boolean;
   private dsData: any;
   private idColumn = 'id';
 
-  private wec:WorkorderEditComponent;
+  private wec: WorkorderEditComponent;
 
   public displayedColumns = [
     'id',
@@ -33,46 +34,51 @@ export class WorkorderListComponent  implements OnInit,AfterViewInit {
     'end',
     'progress',
     'options'
-];
-  constructor(private workOrderService:WorkOrderService,public dialog: MatDialog,private authService:AuthService){
-    this.isForemen=authService.isForemen;
-  
+  ];
+  constructor(private workOrderService: WorkOrderService, public dialog: MatDialog,
+         private authService: AuthService,private confirmService:ConfirmService) {
+    this.isForemen = authService.isForemen;
+
   }
   ngOnInit(): void {
-    
-    
+
+
     this.workOrderService.getAllWorkOrders()
       .subscribe(data => {
-      this.dataLength = data.length;
-      this.dataSource.data = data;
-    },
-    (err: HttpErrorResponse) => {
-    console.log(err.error);
-    console.log(err.message);
-    });
+        this.dataLength = data.length;
+        this.dataSource.data = data;
+      },
+        (err: HttpErrorResponse) => {
+          console.log(err.error);
+          console.log(err.message);
+        });
   }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
   public addRecord() {
     const dialogConfig = new MatDialogConfig();
-        dialogConfig.disableClose = true;
-        dialogConfig.autoFocus = true;
-        dialogConfig.width='850px';
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '850px';
 
-        this.dialog.open(WorkorderEditComponent, dialogConfig);
+    let dialogRef = this.dialog.open(WorkorderEditComponent, dialogConfig);
+
+    const sub = dialogRef.componentInstance.onAdd.subscribe(() => {
+      this.refreshTable();
+    });
   }
- 
+
   public refreshTable() {
     this.workOrderService.getAllWorkOrders()
       .subscribe(data => {
-      this.dataLength = data.length;
-      this.dataSource.data = data;
-    },
-    (err: HttpErrorResponse) => {
-    console.log(err.error);
-    console.log(err.message);
-    });
+        this.dataLength = data.length;
+        this.dataSource.data = data;
+      },
+        (err: HttpErrorResponse) => {
+          console.log(err.error);
+          console.log(err.message);
+        });
   }
 
 
@@ -82,12 +88,15 @@ export class WorkorderListComponent  implements OnInit,AfterViewInit {
   public editRecord(recordId) {
 
     const dialogConfig = new MatDialogConfig();
-        dialogConfig.disableClose = true;
-        dialogConfig.autoFocus = true;
-        dialogConfig.width='850px';
-        dialogConfig.data={recordId: recordId}
-        this.dialog.open(WorkorderEditComponent, dialogConfig);
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '850px';
+    dialogConfig.data = { recordId: recordId, refreshTable: this.refreshTable() }
+    let dialogRef = this.dialog.open(WorkorderEditComponent, dialogConfig);
 
+    const sub = dialogRef.componentInstance.onAdd.subscribe(() => {
+      this.refreshTable();
+    });
     // this.dialog.open(this., {
     //   data: {recordId: recordId, idColumn: this.idColumn, paginator: this.paginator, dataSource: this.dataSource}
     // });
@@ -96,15 +105,22 @@ export class WorkorderListComponent  implements OnInit,AfterViewInit {
 
 
 
-// --------------- DELETE ------------------
+  // --------------- DELETE ------------------
 
   public deleteRecord(recordId) {
 
-    this.workOrderService.deleteWorkOrder(recordId).subscribe(
-      result=>{
-        this.deleteRowDataTable (recordId, this.idColumn, this.paginator, this.dataSource);
-      }, 
-       (err: HttpErrorResponse) => {
+    this.confirmService.confirm(recordId, 'this Record will be deleted')
+    .pipe(
+      switchMap(res => {
+          if (res === true) {
+        return this.workOrderService.deleteWorkOrder(recordId);
+      }
+    }
+    )).subscribe(
+      result => {
+        this.deleteRowDataTable(recordId, this.idColumn, this.paginator, this.dataSource);
+      },
+      (err: HttpErrorResponse) => {
         console.log(err.error);
         console.log(err.message);
       }
@@ -113,11 +129,12 @@ export class WorkorderListComponent  implements OnInit,AfterViewInit {
   }
 
   // Remove the deleted row from the data table. Need to remove from the downloaded data first.
-  private deleteRowDataTable (recordId, idColumn, paginator, dataSource) {
+  private deleteRowDataTable(recordId, idColumn, paginator, dataSource) {
     this.dsData = dataSource.data;
     const itemIndex = this.dsData.findIndex(obj => obj[idColumn] === recordId);
     dataSource.data.splice(itemIndex, 1);
     dataSource.paginator = paginator;
+
   }
 
 }

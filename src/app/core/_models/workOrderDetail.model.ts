@@ -3,4 +3,5 @@ export class WorkOrderDetail {
     description:string;
     location:string;
     progress:number;
+    workOrderId:number;
 }

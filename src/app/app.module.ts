@@ -15,8 +15,10 @@ import { AuthService } from './core/auth';
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 import { AuthModule } from './views/pages/auth/auth.module';
-import { WorkOrderService } from './core/work-order';
-import { WorkorderdetailsService } from './core/work-order/_services/workorder-details.service';
+import { ConfirmService, WorkOrderService,WorkorderdetailsService  } from './core/_services';
+
+
+
 
 
 
@@ -44,7 +46,9 @@ import { WorkorderdetailsService } from './core/work-order/_services/workorder-d
   providers: [
      AuthService, 
      WorkOrderService,
-     WorkorderdetailsService
+     WorkorderdetailsService,
+     ConfirmService
+     
   ],
   bootstrap: [AppComponent],
   exports:[ 

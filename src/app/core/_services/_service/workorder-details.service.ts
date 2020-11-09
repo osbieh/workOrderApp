@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, pipe } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { WorkOrderDetail } from '../../_models/workOrderDetail.model';
 
 const API_WORKORDERDETAILS_URL = 'api/workOrderDetails';
@@ -17,8 +18,9 @@ export class WorkorderdetailsService {
 		return this.http.get<[]>(API_WORKORDERDETAILS_URL);
 	}
 
-	getWorkOrdersDetialsById(wrkOrderId: number): Observable<WorkOrderDetail> {
-		return this.http.get<WorkOrderDetail>(API_WORKORDERDETAILS_URL + `/${wrkOrderId}`);
+	getWorkOrdersDetialsByWorksOrderId(workOrderId: number): Observable<WorkOrderDetail[]> {
+		return this.http.get<[WorkOrderDetail]>(API_WORKORDERDETAILS_URL )
+		.pipe(map(data => data.filter(workorder => workorder.workOrderId== workOrderId) ));
 	}
 
 	

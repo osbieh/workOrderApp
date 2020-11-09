@@ -6,6 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {WorkMaterialModule} from './../../../work-material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { WorkorderDetailsModule } from '../workorder-details/workorder-details.module';
+import { ConfirmService } from 'src/app/core/_services';
 
 
 const routes: Routes = [
@@ -30,6 +31,9 @@ const routes: Routes = [
   ],
   exports:[
     WorkorderListComponent
+  ],
+  providers:[
+    ConfirmService
   ]
 })
 export class WorkOrderModule { }
