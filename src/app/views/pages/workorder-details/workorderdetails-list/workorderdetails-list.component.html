@@ -41,7 +41,15 @@
                             </mat-cell>
                         </ng-container>
 
-
+                        <ng-container matColumnDef="options">
+                            <mat-header-cell *matHeaderCellDef> Options </mat-header-cell>
+                            <mat-cell *matCellDef="let row">
+                                <input *ngIf="!isForemen" (click)="deleteRecord(row.id)" mat-raised-button type="button" value="Delete" >
+                                <input *ngIf="!isForemen" (click)="editRecord(row.id)"   mat-raised-button type="button" value="Edit" >
+                               
+                                
+                            </mat-cell>
+                        </ng-container>
 
                         <mat-header-row *matHeaderRowDef="displayedDetailColumns"></mat-header-row>
                         <mat-row *matRowDef="let row; columns: displayedDetailColumns;"></mat-row>

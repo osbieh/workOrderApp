@@ -18,7 +18,7 @@ import { WorkorderdetailsEditComponent } from '../workorderdetails-edit/workorde
 export class WorkorderdetailsListComponent implements OnInit, AfterViewInit {
 
 
-  displayedDetailColumns: string[] = ['id', 'location', 'description', 'progress'];
+  displayedDetailColumns: string[] = ['id', 'location', 'description', 'progress','options'];
   public dataSource = new MatTableDataSource;
   controls: FormArray;
   dataLength: number;
@@ -119,6 +119,13 @@ export class WorkorderdetailsListComponent implements OnInit, AfterViewInit {
           console.log(err.error);
           console.log(err.message);
         });
+  }
+
+  // ----------- EDIT & UPDATE --------------
+  public editRecord(workOrderId) {}
+  // ----------- EDIT & UPDATE --------------
+  public deleteRecord(workOrderId) {
+    
   }
 
 }
