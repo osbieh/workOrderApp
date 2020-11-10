@@ -22,8 +22,8 @@ const routes: Routes = [
 				loadChildren: () => import('./views/pages/work-order/work-order.module').then(m => m.WorkOrderModule)
       },
 
-      {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
-      {path: '**', redirectTo: 'dashboard', pathMatch: 'full'}
+      {path: '', redirectTo: 'workOrder', pathMatch: 'full'},
+      {path: '**', redirectTo: 'workOrder', pathMatch: 'full'}
     ]
   },
   // {path: '', redirectTo: 'dashboard', pathMatch: 'full'},

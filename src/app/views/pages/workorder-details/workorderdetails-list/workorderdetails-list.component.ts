@@ -1,11 +1,13 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { AfterViewInit, Component, Inject, OnInit, ViewChild, ViewChildren } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { WorkOrderDetail } from 'src/app/core/_models/workOrderDetail.model';
 import { WorkorderdetailsService } from 'src/app/core/_services/_service/workorder-details.service';
+import { WorkorderEditComponent } from '../../work-order/workorder-edit/workorder-edit.component';
+import { WorkorderdetailsEditComponent } from '../workorderdetails-edit/workorderdetails-edit.component';
 
 @Component({
   selector: 'app-workorderdetails-list',
@@ -26,7 +28,7 @@ export class WorkorderdetailsListComponent implements OnInit, AfterViewInit {
   @ViewChildren(MatTable) _matTables;
 
   constructor(private workorderdetailsService: WorkorderdetailsService,
-    @Inject(MAT_DIALOG_DATA) public data: any) {
+    @Inject(MAT_DIALOG_DATA) public data: any, public dialog: MatDialog,) {
 
 
   }
@@ -74,19 +76,6 @@ export class WorkorderdetailsListComponent implements OnInit, AfterViewInit {
 
   }
 
-  updateField(index, field) {
-    const control = this.getControl(index, field);
-    if (control.valid) {
-     // this.core.update(index,field,control.value);
-    }
-
-
-  }
-
-  getControl(index, fieldName) {
-    const a = this.controls.at(index).get(fieldName) as FormControl;
-    return this.controls.at(index).get(fieldName) as FormControl;
-  }
 
   createNewWorkOrderDetails(id: number): WorkOrderDetail {
     if (this.data) {
@@ -97,8 +86,19 @@ export class WorkorderdetailsListComponent implements OnInit, AfterViewInit {
   }
 
   addRow(){
-    this.dataSource.data.push(this.createNewWorkOrderDetails(this.dataSource.data.length + 1));
-    this.dataSource.filter = "";
+    // this.dataSource.data.push(this.createNewWorkOrderDetails(this.dataSource.data.length + 1));
+    // this.dataSource.filter = "";
+    this.newWorkOrderDetails()
+  }
+
+
+  newWorkOrderDetails(){
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '400px';
+    let dialogRef = this.dialog.open(WorkorderdetailsEditComponent, dialogConfig);
+
   }
 
 }

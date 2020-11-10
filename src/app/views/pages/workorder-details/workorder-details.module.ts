@@ -4,11 +4,12 @@ import { WorkorderdetailsListComponent } from './workorderdetails-list/workorder
 import { WorkMaterialModule } from 'src/app/work-material.module';
 
 import { ReactiveFormsModule } from '@angular/forms';
+import { WorkorderdetailsEditComponent } from './workorderdetails-edit/workorderdetails-edit.component';
 
 
 
 @NgModule({
-  declarations: [WorkorderdetailsListComponent],
+  declarations: [WorkorderdetailsListComponent, WorkorderdetailsEditComponent],
   imports: [
     CommonModule,
     WorkMaterialModule,
