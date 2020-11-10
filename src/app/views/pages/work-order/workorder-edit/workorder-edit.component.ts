@@ -61,7 +61,7 @@ export class WorkorderEditComponent implements OnInit{
   private createForm() {
     this.addEditworkOrderForm = this.fb.group({
       id: [''],
-      creation: new FormControl({ value: formatDate(new Date(), 'dd/MM/yyyy', 'en-US') }),
+      creation: [ formatDate(new Date(), 'dd/MM/yyyy', 'en-US'), Validators.required],
       operation: ['', Validators.required],
       start: ['', Validators.required],
       end: ['', Validators.required],
@@ -90,7 +90,7 @@ export class WorkorderEditComponent implements OnInit{
 
     this.addEditworkOrderForm.setValue({
       id: parsedData.id,
-      creation: formatDate(new Date(), 'dd/MM/yyyy', 'en-US'),
+      creation: formatDate(parsedData.creation, 'dd/MM/yyyy', 'en-US'),
       operation: parsedData.operation,
       start: parsedData.start,
       end: parsedData.end,

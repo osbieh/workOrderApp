@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { AfterViewInit, Component, Inject, OnInit, ViewChild, ViewChildren } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
@@ -15,7 +15,7 @@ import { WorkorderdetailsService } from 'src/app/core/_services/_service/workord
 export class WorkorderdetailsListComponent implements OnInit, AfterViewInit {
 
 
-  displayedDetailColumns: string[] = ['id', 'description', 'location', 'progress'];
+  displayedDetailColumns: string[] = ['id', 'location','description',  'progress'];
   public dataSource = new MatTableDataSource;
   controls: FormArray;
   dataLength: number;
@@ -31,7 +31,7 @@ export class WorkorderdetailsListComponent implements OnInit, AfterViewInit {
 
   }
   ngAfterViewInit(): void {
-
+   
     this.dataSource.paginator = this.paginator;
 
   }
@@ -43,14 +43,29 @@ export class WorkorderdetailsListComponent implements OnInit, AfterViewInit {
       this.fillTableData(this.data.recordId);
     }
 
+   
+
   }
   fillTableData(workorderId: number) {
 
     this.workorderdetailsService.getWorkOrdersDetialsByWorksOrderId(workorderId)
       .subscribe(result => {
-
         this.dataLength = result.length;
         this.dataSource.data = result;
+        console.log(this.dataSource.data );
+        const toGroups = this.dataSource.data.map((entity:WorkOrderDetail) => {
+          return new FormGroup({
+            id:  new FormControl(entity.id, Validators.required),
+            description: new FormControl(entity.description, Validators.required), 
+            location: new FormControl(entity.location, Validators.required),
+            progress: new FormControl(entity.progress, Validators.required),
+            workOrderId:new FormControl(entity.workOrderId, Validators.required),
+          },{updateOn: "blur"});
+        });
+    
+        this.controls = new FormArray(toGroups);
+    
+        console.log(this.controls );
       },
         (err: HttpErrorResponse) => {
           console.log(err.error);
@@ -61,9 +76,10 @@ export class WorkorderdetailsListComponent implements OnInit, AfterViewInit {
 
   updateField(index, field) {
     const control = this.getControl(index, field);
-    // if (control.valid) {
-    // //  this.core.update(index,field,control.value);
-    // }
+    if (control.valid) {
+     // this.core.update(index,field,control.value);
+    }
+
 
   }
 

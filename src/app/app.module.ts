@@ -16,13 +16,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 import { AuthModule } from './views/pages/auth/auth.module';
 import { ConfirmService, WorkOrderService,WorkorderdetailsService  } from './core/_services';
-
-
-
-
-
-
-
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -34,6 +28,7 @@ import { ConfirmService, WorkOrderService,WorkorderdetailsService  } from './cor
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     HttpClientModule,
     HttpClientInMemoryWebApiModule.forRoot(FakeApiService, {

@@ -63,7 +63,7 @@ export class WorkorderListComponent implements OnInit, AfterViewInit {
     dialogConfig.width = '850px';
 
     let dialogRef = this.dialog.open(WorkorderEditComponent, dialogConfig);
-
+    
     const sub = dialogRef.componentInstance.onAdd.subscribe(() => {
       this.refreshTable();
     });
