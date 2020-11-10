@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { WorkOrderDetail } from 'src/app/core/_models/workOrderDetail.model';
 import { WorkorderdetailsService } from 'src/app/core/_services';
 import { locations } from './../../../../core/_dataBase/locations-list'
 @Component({
@@ -13,6 +14,7 @@ export class WorkorderdetailsEditComponent implements OnInit {
   public addEditworkOrderDetailsForm: FormGroup;
   onAdd = new EventEmitter();
   workerOrderId:number;
+  workerOrderDetailsId:number;
 
   locations = [
     { value: 'Jerusalem', viewValue: 'Jerusalem' },
@@ -25,10 +27,23 @@ export class WorkorderdetailsEditComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
+    console.log(this.data);
+    this.workerOrderId=this.data.workerOrderId;
     this.createForm();
 
-     console.log("data edit form ",this.data);
-     this.workerOrderId=this.data.workerOrderId;
+   
+
+    if(this.data.workerOrderDetailsId){
+      console.log("===>",this.data);
+      this.workerOrderDetailsId=this.data.workerOrderDetailsId;
+      this.fetchRecord();
+    }
+      
+    
+
+    
+     
+    
   }
 
   private createForm() {
@@ -38,7 +53,29 @@ export class WorkorderdetailsEditComponent implements OnInit {
       description: ['', Validators.required],
       progress: ['', Validators.required],
     });
+  }
 
+
+  public fetchRecord() {
+    this.workorderdetailsService
+      .getWorkOrderDetialsById(this.workerOrderDetailsId)
+      .subscribe(
+        data => {
+          this.fillForm(data);
+        }
+
+      );
+
+  }
+
+  private fillForm(parsedData: WorkOrderDetail) {
+
+    this.addEditworkOrderDetailsForm.setValue({
+      id: parsedData.id,
+      location:parsedData.location,
+      description:parsedData.description,
+      progress: parsedData.progress
+    });
 
   }
   
@@ -47,17 +84,36 @@ export class WorkorderdetailsEditComponent implements OnInit {
 
     if (addWorkOrder.addEditworkOrderDetailsForm.valid) {
 
-      addWorkOrder.addEditworkOrderDetailsForm.patchValue(
-        {
-          id: Math.floor(Math.random() * 1000) + 7,
-       
-        });
-
         addWorkOrder.addEditworkOrderDetailsForm.value.workOrderId=this.workerOrderId;
-        this.workorderdetailsService.createWorkOrderDetails(addWorkOrder.addEditworkOrderDetailsForm.value)
+        
+
+        if(this.workerOrderDetailsId){
+          this.workorderdetailsService.updateWorkOrderDetail(addWorkOrder.addEditworkOrderDetailsForm.value)
+          .subscribe(
+            res => {
+              console.log("update WorkOrderDetails Create");
+              this.onAdd.emit();
+             this.dialogRef.close();
+            },
+            (err: HttpErrorResponse) => {
+              console.log(err.error);
+              console.log(err.message);
+            }
+          );
+  
+
+        }else{
+
+          addWorkOrder.addEditworkOrderDetailsForm.patchValue(
+            {
+              id: Math.floor(Math.random() * 1000) + 7,
+           
+            });
+            addWorkOrder.addEditworkOrderDetailsForm.value.workOrderId=this.workerOrderId;
+          this.workorderdetailsService.createWorkOrderDetail(addWorkOrder.addEditworkOrderDetailsForm.value)
         .subscribe(
           res => {
-            console.log("new WorkOrderDetails Create");
+            console.log("new WorkOrderDetails Created");
             this.onAdd.emit();
            this.dialogRef.close();
           },
@@ -67,6 +123,9 @@ export class WorkorderdetailsEditComponent implements OnInit {
           }
         );
 
+          
+        }
+        
 
       
     }

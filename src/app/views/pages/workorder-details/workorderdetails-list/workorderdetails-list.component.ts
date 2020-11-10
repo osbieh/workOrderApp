@@ -94,7 +94,7 @@ export class WorkorderdetailsListComponent implements OnInit, AfterViewInit {
 
   newWorkOrderDetails() {
 
-    console.log("Work-detail-list :: newWorkOrderDetails()  ",this.workerOrderId);
+   
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
@@ -122,10 +122,23 @@ export class WorkorderdetailsListComponent implements OnInit, AfterViewInit {
   }
 
   // ----------- EDIT & UPDATE --------------
-  public editRecord(workOrderId) {}
+  public editRecord(workOrderDetailsId) {
+
+   
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '400px';
+    dialogConfig.data={workerOrderId:this.workerOrderId,workerOrderDetailsId:workOrderDetailsId}
+    let dialogRef = this.dialog.open(WorkorderdetailsEditComponent, dialogConfig);
+    const sub = dialogRef.componentInstance.onAdd.subscribe(() => {
+      this.refreshWorkOrderDetailsTable();
+    });
+
+  }
   // ----------- EDIT & UPDATE --------------
   public deleteRecord(workOrderId) {
-    
+
   }
 
 }

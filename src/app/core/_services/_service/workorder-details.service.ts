@@ -18,18 +18,26 @@ export class WorkorderdetailsService {
 		return this.http.get<[]>(API_WORKORDERDETAILS_URL);
 	}
 
+	getWorkOrderDetialsById(wrkOrderDetailsId: number): Observable<WorkOrderDetail> {
+		return this.http.get<WorkOrderDetail>(API_WORKORDERDETAILS_URL + `/${wrkOrderDetailsId}`);
+	}
+
 	getWorkOrdersDetialsByWorksOrderId(workOrderId: number): Observable<WorkOrderDetail[]> {
 		return this.http.get<[WorkOrderDetail]>(API_WORKORDERDETAILS_URL )
 		.pipe(map(data => data.filter(workorder => workorder.workOrderId== workOrderId) ));
 	}
 
-	createWorkOrderDetails(workOrderDetails:WorkOrderDetail): Observable<WorkOrderDetail> {
+	createWorkOrderDetail(workOrderDetails:WorkOrderDetail): Observable<WorkOrderDetail> {
 		const httpHeaders = new HttpHeaders();
 		httpHeaders.set('Content-Type', 'application/json');
-		console.log("Work Order Details",workOrderDetails);
 		return this.http.post<WorkOrderDetail>(API_WORKORDERDETAILS_URL,workOrderDetails, { headers: httpHeaders });
 	}
-	
+	// UPDATE => PUT: update the WorkOrder on the server
+	updateWorkOrderDetail(workOrderDetail: WorkOrderDetail): Observable<any> {
+		const httpHeaders = new HttpHeaders();
+		httpHeaders.set('Content-Type', 'application/json');
+		return this.http.put(API_WORKORDERDETAILS_URL, workOrderDetail, { headers: httpHeaders });
+	}
 
 	
 

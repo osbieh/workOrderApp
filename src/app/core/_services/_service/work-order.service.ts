@@ -29,7 +29,7 @@ export class WorkOrderService {
 		return this.http.post<WorkOrder>(API_WORKORDER_URL,workOrder, { headers: httpHeaders });
 	}
 
-	// UPDATE => PUT: update the customer on the server
+	// UPDATE => PUT: update the WorkOrder on the server
 	updateWorkOrder(workOrder: WorkOrder): Observable<any> {
 		const httpHeaders = new HttpHeaders();
 		httpHeaders.set('Content-Type', 'application/json');
