@@ -24,7 +24,7 @@ export class WorkorderEditComponent implements OnInit{
   public addEditworkOrderForm: FormGroup;
   value: number;
   creationFieldDisabled = true;
-  private recordId: number;
+  private workOrderId: number;
   creationDate: Date;
   // This is a form group from FormBuilder.
   @ViewChild(WorkorderEditComponent)
@@ -72,9 +72,9 @@ export class WorkorderEditComponent implements OnInit{
   }
 
   public fetchRecord() {
-    this.recordId = this.data.recordId;
+    this.workOrderId = this.data.recordId;
     this.workOrderService
-      .getWorkOrderById(this.recordId)
+      .getWorkOrderById(this.workOrderId)
       .subscribe(
         data => {
           this.fillForm(data);
@@ -84,7 +84,6 @@ export class WorkorderEditComponent implements OnInit{
       );
 
   }
-
 
   private fillForm(parsedData: WorkOrder) {
 
@@ -111,7 +110,7 @@ export class WorkorderEditComponent implements OnInit{
           end:  formatDate(new Date(this.addEditworkOrderForm.value.end), 'yyyy-MM-dd', 'en-US'),
         });
 
-      if (this.recordId) {
+      if (this.workOrderId) {
        
 
         this.workOrderService

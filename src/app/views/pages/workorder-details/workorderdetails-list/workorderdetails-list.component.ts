@@ -22,7 +22,9 @@ export class WorkorderdetailsListComponent implements OnInit, AfterViewInit {
   public dataSource = new MatTableDataSource;
   controls: FormArray;
   dataLength: number;
-  workerId: number;
+  
+  workerOrderId: number;
+  
   isForemen: boolean;
 
 
@@ -35,6 +37,7 @@ export class WorkorderdetailsListComponent implements OnInit, AfterViewInit {
   ) {
 
     this.isForemen = authService.isForemen;
+   
   }
   ngAfterViewInit(): void {
 
@@ -43,10 +46,25 @@ export class WorkorderdetailsListComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-
+    
     // this.createForm();
     if (this.data) {
+     console.log("ngOnInit() data",this.data);
+     this.workerOrderId=this.data.recordId
       this.fillTableData(this.data.recordId);
+      const toGroups = this.dataSource.data.map((entity: WorkOrderDetail) => {
+        return new FormGroup({
+          id: new FormControl(entity.id, Validators.required),
+          description: new FormControl(entity.description, Validators.required),
+          location: new FormControl(entity.location, Validators.required),
+          progress: new FormControl(entity.progress, Validators.required),
+          workOrderId: new FormControl(entity.workOrderId, Validators.required),
+        }, { updateOn: "blur" });
+      });
+
+      this.controls = new FormArray(toGroups);
+
+
     }
 
 
@@ -58,20 +76,7 @@ export class WorkorderdetailsListComponent implements OnInit, AfterViewInit {
       .subscribe(result => {
         this.dataLength = result.length;
         this.dataSource.data = result;
-        console.log(this.dataSource.data);
-        const toGroups = this.dataSource.data.map((entity: WorkOrderDetail) => {
-          return new FormGroup({
-            id: new FormControl(entity.id, Validators.required),
-            description: new FormControl(entity.description, Validators.required),
-            location: new FormControl(entity.location, Validators.required),
-            progress: new FormControl(entity.progress, Validators.required),
-            workOrderId: new FormControl(entity.workOrderId, Validators.required),
-          }, { updateOn: "blur" });
-        });
-
-        this.controls = new FormArray(toGroups);
-
-        console.log(this.controls);
+      
       },
         (err: HttpErrorResponse) => {
           console.log(err.error);
@@ -81,28 +86,39 @@ export class WorkorderdetailsListComponent implements OnInit, AfterViewInit {
   }
 
 
-  createNewWorkOrderDetails(id: number): WorkOrderDetail {
-    if (this.data) {
-      return { id: 10, description: "", location: "", progress: 0, workOrderId: this.data.recordId };
-    }
-
-    return { id: 10, description: "", location: "", progress: 0, workOrderId: 1 };
-  }
-
   addRow() {
-    // this.dataSource.data.push(this.createNewWorkOrderDetails(this.dataSource.data.length + 1));
-    // this.dataSource.filter = "";
+   
     this.newWorkOrderDetails()
   }
 
 
   newWorkOrderDetails() {
+
+    console.log("Work-detail-list :: newWorkOrderDetails()  ",this.workerOrderId);
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.width = '400px';
+    dialogConfig.data={workerOrderId:this.workerOrderId}
     let dialogRef = this.dialog.open(WorkorderdetailsEditComponent, dialogConfig);
+    const sub = dialogRef.componentInstance.onAdd.subscribe(() => {
+      this.refreshWorkOrderDetailsTable();
+    });
 
+  }
+
+
+  public refreshWorkOrderDetailsTable() {
+    console.log("this.workerId",this.workerOrderId);
+    this.workorderdetailsService.getWorkOrdersDetialsByWorksOrderId(this.workerOrderId)
+      .subscribe(data => {
+        this.dataLength = data.length;
+        this.dataSource.data = data;
+      },
+        (err: HttpErrorResponse) => {
+          console.log(err.error);
+          console.log(err.message);
+        });
   }
 
 }

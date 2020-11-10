@@ -81,17 +81,14 @@ export class WorkorderListComponent implements OnInit, AfterViewInit {
         });
   }
 
-
-
-
   // ----------- EDIT & UPDATE --------------
-  public editRecord(recordId) {
+  public editRecord(workOrderId) {
 
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.width = '850px';
-    dialogConfig.data = { recordId: recordId, refreshTable: this.refreshTable() }
+    dialogConfig.data = { recordId: workOrderId, refreshTable: this.refreshTable() }
     let dialogRef = this.dialog.open(WorkorderEditComponent, dialogConfig);
 
     const sub = dialogRef.componentInstance.onAdd.subscribe(() => {
@@ -102,14 +99,11 @@ export class WorkorderListComponent implements OnInit, AfterViewInit {
     // });
   }
 
-
-
-
   // --------------- DELETE ------------------
 
   public deleteRecord(recordId) {
 
-    this.confirmService.confirm(recordId, 'this Record will be deleted')
+    this.confirmService.confirm('Work Order ID: '+recordId, 'will be deleted')
     .pipe(
       switchMap(res => {
           if (res === true) {
